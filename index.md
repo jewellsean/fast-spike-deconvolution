@@ -58,7 +58,7 @@ of {% cite jewell2018fast %}.
 Allen Institute for Brain Science 
 ----
 
-We also note that, the recent paper {% cite deVries2018large %} decodes neural activity for different Allen Institute 
+We also note that the recent paper {% cite deVries2018large %} decodes neural activity for different Allen Institute 
 for Brain Science (AIBS) Brain Observatory experiments using 
 Algorithm 2 of {% cite jewell2018fast %}; that is, the algorithm presented on this website. 
 
