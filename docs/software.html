@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+	<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Bootstrap core CSS -->
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="css/logo-nav.css" rel="stylesheet">
+<link href="css/syntax.css" rel="stylesheet">
+
+
+
+<title>
+    Software
+</title>
+  
+  </head>
+  
+  
+  <body>
+  
+  	<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Overview
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="tutorial.html">R Tutorial</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="python_tutorial.html">Python Tutorial</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="software.html">Software</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="references.html">References</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+    <!-- Page Content -->
+    <div class="container">
+        <h1 class="mt-5"></h1>
+
+        <p>The <code class="highlighter-rouge">FastLZeroSpikeInference</code> package is publicly available on Github. The C++ implementation of Algorithms 1 and 2 of 
+<a href="#jewell2018fast">(Jewell, Hocking, Fearnhead, &amp; Witten, 2018)</a> are accessible through R and python wrappers. These wrappers are available at 
+<a href="https://github.com/jewellsean/FastLZeroSpikeInference/blob/master/README.md">https://github.com/jewellsean/FastLZeroSpikeInference</a>.</p>
+
+<p>If you are using the Allen Institute for Brain Science (AIBS) Brain Observatory data, note that the AIBS recently released an update to their software development kit that provides 
+users with the output from Algorithm 2 for close to 60,000 neurons during different experimental conditions. 
+See <a href="https://allensdk.readthedocs.io/en/latest/">https://allensdk.readthedocs.io/en/latest/</a> for additional information.</p>
+
+<h2 id="installation">Installation</h2>
+
+<h4 id="r">R</h4>
+
+<p>In R, make sure that the <code class="highlighter-rouge">devtools</code> package is installed (<code class="highlighter-rouge">install.packages("devtools")</code>) and then run</p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">devtools</span><span class="o">::</span><span class="n">install_github</span><span class="p">(</span><span class="s2">"jewellsean/FastLZeroSpikeInference"</span><span class="p">)</span><span class="n">.</span><span class="w">
+</span></code></pre></div></div>
+<p>This command installs the latest version of the package from Github. <em>The package has been submitted to CRAN, though may not yet be available.</em></p>
+
+<h4 id="python">Python</h4>
+
+<p>In python, we recommend directly cloning the repository and building using the supplied <code class="highlighter-rouge">make</code> script. Run the following commands</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone <span class="s2">"https://github.com/jewellsean/FastLZeroSpikeInference.git"</span>
+<span class="nb">cd </span>FastLZeroSpikeInference/python
+./make.sh
+</code></pre></div></div>
+<p>to clone the repository, build the package, and install to your local python directory.</p>
+
+<h2 id="references">References</h2>
+
+<ol class="bibliography"><li><div class="text-justify"><span id="jewell2018fast">Jewell, S., Hocking, T. D., Fearnhead, P., &amp; Witten, D. (2018). Fast Nonconvex Deconvolution of Calcium Imaging Data. <i>ArXiv:1802.07380</i>.</span></div>
+<button class="button0" onclick="toggleBibtexjewell2018fast()">Bibtex</button>
+
+
+
+
+<a href="https://arxiv.org/pdf/1802.07380.pdf"><input class="button0" type="button" value="preprint" /></a>
+
+
+
+<a href="https://arxiv.org/abs/1802.07380"><input class="button0" type="button" value="link" /></a>
+
+
+
+<a href="https://github.com/jewellsean/FastLZeroSpikeInference"><input class="button0" type="button" value="code" /></a>
+
+<div id="ajewell2018fast" style="display: none;">
+    <pre>@article{jewell2018fast,
+  title = {Fast Nonconvex Deconvolution of Calcium Imaging Data},
+  author = {Jewell, Sean and Hocking, Toby Dylan and Fearnhead, Paul and Witten, Daniela},
+  journal = {arXiv:1802.07380},
+  year = {2018},
+  preprint = {https://arxiv.org/pdf/1802.07380.pdf},
+  link = {https://arxiv.org/abs/1802.07380},
+  code = {https://github.com/jewellsean/FastLZeroSpikeInference}
+}
+</pre>
+</div>
+<script>
+function toggleBibtexjewell2018fast(parameter) {
+    var x= document.getElementById('ajewell2018fast');
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+</script></li></ol>
+
+
+
+    </div>
+    <!-- /.container -->
+
+
+  <footer>
+  	<div class="container">
+    <br>
+<p><a href="#">Back to top</a></p>
+    <p>&copy; 2018 <a href="https://www.stat.washington.edu/~swjewell/index.html">Sean Jewell</a> (swjewell at uw dot edu)
+</div><!-- /.container -->
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+<!-- MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: { 
+      Macros: {
+         1: '{\\bf 1}',
+        DP: '{\\textrm{DP}}',
+        CRP: '{\\textrm{CRP}}',
+        Uni: '{\\textrm{Uni}}',
+        Norm: '{\\textrm{Normal}}',
+        Dir: '{\\textrm{Dir}}',
+        Beta: '{\\textrm{Beta}}',
+        Cat: '{\\textrm{Cat}}',
+        Exp: '{\\textrm{Exp}}',
+        E: '{\\mathbb{E}}',
+        P: '{\\mathbb{P}}',
+        deq: '{\\stackrel{\\scriptscriptstyle d}{=}}',
+        Cov: '{\\bf Cov}',
+        Yscr: '{\\mathscr{Y}}',
+        RR: '{\\mathbb{R}}',
+        sa: '{\\mathcal{F}}',
+        bold: ['{\\bf #1}', 1]
+      },
+      equationNumbers: { autoNumber: "AMS" },
+       extensions: ["autobold.js"]
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-58359915-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+  </footer>
+
+  </body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+	<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Bootstrap core CSS -->
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="css/logo-nav.css" rel="stylesheet">
+<link href="css/syntax.css" rel="stylesheet">
+
+
+
+<title>
+    FastLZeroSpikeInference Tutorial
+</title>
+  
+  </head>
+  
+  
+  <body>
+  
+  	<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Overview
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="tutorial.html">R Tutorial</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="python_tutorial.html">Python Tutorial</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="software.html">Software</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="references.html">References</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+    <!-- Page Content -->
+    <div class="container">
+        <h1 class="mt-5"></h1>
+
+        <h2 id="r-tutorial">R tutorial</h2>
+
+<p>In this tutorial, we demonstrate how the <code class="highlighter-rouge">FastLZeroSpikeInference</code> package can be used to deconvolve calcium imaging data from a single neuron. All demos require the <code class="highlighter-rouge">FastLZeroSpikeInference</code> package; installation instructions are provided <a href="software.html">here</a>.</p>
+
+<p>To illustrate the software, we generate a synthetic dataset according to</p>
+
+<script type="math/tex; mode=display">y_t = c_t + \epsilon_t, \\
+c_t = \gamma c_{t-1} + z_t, \\
+z_t \sim \mathrm{Pois}(\theta), \\</script>
+
+<p>where $\epsilon_t \sim \mathrm{N}(0, \sigma^2)$ and  $c_1 = 1$. The function <code class="highlighter-rouge">simulate_ar1</code> generates data from this model.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">sim</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">simulate_ar1</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10000</span><span class="p">,</span><span class="w"> </span><span class="n">gam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.95</span><span class="p">,</span><span class="w"> </span><span class="n">poisMean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.01</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.15</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/figure/source/tutorial/unnamed-chunk-1-1.png" alt="plot of chunk unnamed-chunk-1" /></p>
+
+<p>The <code class="highlighter-rouge">estimate_spikes</code> function estimates spikes based on the calcium trace, exponential decay parameter $\gamma$, and a tuning parameter $\lambda$. This function solves*</p>
+
+<script type="math/tex; mode=display">\underset{c_1,\ldots,c_T, z_2,\ldots,z_T}{\mathrm{minimize}}  
+\frac{1}{2} \sum_{t=1}^T \left( y_t -  c_t \right)^2 + \lambda \sum_{t=2}^T 1_{\left( z_t \neq 0 \right) }</script>
+
+<p>if the <code class="highlighter-rouge">constraint</code> parameter is set to false (default), and</p>
+
+<script type="math/tex; mode=display">\underset{c_1,\ldots,c_T, z_2,\ldots,z_T}{\mathrm{minimize}}  
+\frac{1}{2} \sum_{t=1}^T \left( y_t -  c_t \right)^2 + \lambda \sum_{t=2}^T 1_{\left( z_t \neq 0 \right) }
+\mbox{ subject to } z_t = c_t - \gamma c_{t-1} \geq 0,</script>
+
+<p>if the <code class="highlighter-rouge">constraint</code> parameter is set to true. Here’s an example of the function applied to the previously generated data.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># AR(1) model</span><span class="w">
+</span><span class="n">fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">estimate_spikes</span><span class="p">(</span><span class="n">dat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sim</span><span class="o">$</span><span class="n">fl</span><span class="p">,</span><span class="w"> </span><span class="n">gam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.95</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">## 
+##  Call: 
+## estimate_spikes(dat = sim$fl, gam = 0.95, lambda = 1)
+## 
+##  Output: 
+## Number of spikes 	 89 
+## 
+##  Settings: 
+## Data length 		 10000 
+## Model type 		 ar1 
+## Gamma 			 0.95 
+## Lambda 			 1</code></pre></figure>
+
+<p>By default, and to save computation time, the calcium concentration is not automatically estimated. However, the <code class="highlighter-rouge">estimate_calcium</code> function can be used to estimate the calcium concentration based on a prior fit.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># compute fitted values from prev. fit</span><span class="w">
+</span><span class="n">fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">estimate_calcium</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/figure/source/tutorial/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3" /></p>
+
+<p>Alternatively, both spikes and calcium concentrations can be computed with the <code class="highlighter-rouge">estimate_spikes</code> function with <code class="highlighter-rouge">estimate_calcium</code> parameter set to true.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">estimate_spikes</span><span class="p">(</span><span class="n">dat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sim</span><span class="o">$</span><span class="n">fl</span><span class="p">,</span><span class="w"> </span><span class="n">gam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.95</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">estimate_calcium</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/figure/source/tutorial/unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4" /></p>
+
+<p>To solve the constrained problem</p>
+
+<script type="math/tex; mode=display">\underset{c_1,\ldots,c_T, z_2,\ldots,z_T}{\mathrm{minimize}}  
+\frac{1}{2} \sum_{t=1}^T \left( y_t -  c_t \right)^2 + \lambda \sum_{t=2}^T 1_{\left( z_t \neq 0 \right) }
+\mbox{ subject to } z_t = c_t - \gamma c_{t-1} \geq 0,</script>
+
+<p>we set the <code class="highlighter-rouge">constraint</code> parameter to true in the <code class="highlighter-rouge">estimate_spikes</code> function. Consider the following example.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Constrained AR(1) model</span><span class="w">
+</span><span class="n">fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">estimate_spikes</span><span class="p">(</span><span class="n">dat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sim</span><span class="o">$</span><span class="n">fl</span><span class="p">,</span><span class="w"> </span><span class="n">gam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.95</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">constraint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="n">estimate_calcium</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">## 
+##  Call: 
+## estimate_spikes(dat = sim$fl, gam = 0.95, lambda = 1, constraint = T, 
+##     estimate_calcium = T)
+## 
+##  Output: 
+## Number of spikes 	 89 
+## 
+##  Settings: 
+## Data length 		 10000 
+## Model type 		 ar1-pos-constrained 
+## Gamma 			 0.95 
+## Lambda 			 1</code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">plot</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/figure/source/tutorial/unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5" /></p>
+
+<ul>
+  <li>In practice, we solve a modification of our algorithm that removes potential numerical instabilities by imposing a minimum calcium concentration constraint. Namely, we require that the calcium concentration never decays below some small $\epsilon&gt;0$, i.e. $c_{t} = \max(\gamma c_{t-1}, \epsilon) + z_{t}$. This results in slightly different optimization problems. For small $\epsilon$, the difference between the old and new formulation is negligible (the objective function differ only when, under the old formulation, $c_{t} &lt; \epsilon$, and at such timesteps the difference is bounded by $2y_{t}\epsilon + \frac12 \epsilon^{2}$.) Details are in Appendix S3.1 of the Supplementary Materials of <a href="#jewell2018fast">(Jewell, Hocking, Fearnhead, &amp; Witten, 2018)</a>.</li>
+</ul>
+
+<h2 id="references">References</h2>
+
+<ol class="bibliography"><li><div class="text-justify"><span id="jewell2018fast">Jewell, S., Hocking, T. D., Fearnhead, P., &amp; Witten, D. (2018). Fast Nonconvex Deconvolution of Calcium Imaging Data. <i>ArXiv:1802.07380</i>.</span></div>
+<button class="button0" onclick="toggleBibtexjewell2018fast()">Bibtex</button>
+
+
+
+
+<a href="https://arxiv.org/pdf/1802.07380.pdf"><input class="button0" type="button" value="preprint" /></a>
+
+
+
+<a href="https://arxiv.org/abs/1802.07380"><input class="button0" type="button" value="link" /></a>
+
+
+
+<a href="https://github.com/jewellsean/FastLZeroSpikeInference"><input class="button0" type="button" value="code" /></a>
+
+<div id="ajewell2018fast" style="display: none;">
+    <pre>@article{jewell2018fast,
+  title = {Fast Nonconvex Deconvolution of Calcium Imaging Data},
+  author = {Jewell, Sean and Hocking, Toby Dylan and Fearnhead, Paul and Witten, Daniela},
+  journal = {arXiv:1802.07380},
+  year = {2018},
+  preprint = {https://arxiv.org/pdf/1802.07380.pdf},
+  link = {https://arxiv.org/abs/1802.07380},
+  code = {https://github.com/jewellsean/FastLZeroSpikeInference}
+}
+</pre>
+</div>
+<script>
+function toggleBibtexjewell2018fast(parameter) {
+    var x= document.getElementById('ajewell2018fast');
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+</script></li></ol>
+
+
+
+
+    </div>
+    <!-- /.container -->
+
+
+  <footer>
+  	<div class="container">
+    <br>
+<p><a href="#">Back to top</a></p>
+    <p>&copy; 2018 <a href="https://www.stat.washington.edu/~swjewell/index.html">Sean Jewell</a> (swjewell at uw dot edu)
+</div><!-- /.container -->
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+<!-- MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: { 
+      Macros: {
+         1: '{\\bf 1}',
+        DP: '{\\textrm{DP}}',
+        CRP: '{\\textrm{CRP}}',
+        Uni: '{\\textrm{Uni}}',
+        Norm: '{\\textrm{Normal}}',
+        Dir: '{\\textrm{Dir}}',
+        Beta: '{\\textrm{Beta}}',
+        Cat: '{\\textrm{Cat}}',
+        Exp: '{\\textrm{Exp}}',
+        E: '{\\mathbb{E}}',
+        P: '{\\mathbb{P}}',
+        deq: '{\\stackrel{\\scriptscriptstyle d}{=}}',
+        Cov: '{\\bf Cov}',
+        Yscr: '{\\mathscr{Y}}',
+        RR: '{\\mathbb{R}}',
+        sa: '{\\mathcal{F}}',
+        bold: ['{\\bf #1}', 1]
+      },
+      equationNumbers: { autoNumber: "AMS" },
+       extensions: ["autobold.js"]
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-58359915-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+  </footer>
+
+  </body>
+</html>
