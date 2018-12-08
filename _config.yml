@@ -1,0 +1,16 @@
+name: Fast nonconvex deconvolution of calcium imaging data
+title: Fast nonconvex deconvolution of calcium imaging data
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  hard_wrap: false
+url:
+baseurl: /
+plugins: ['jekyll/scholar']
+scholar:
+  replace_strings: true
+  query: "@*"
+  bibliography_template: bibtemplate
+  bibliography: references.bib
+
