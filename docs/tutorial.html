@@ -79,7 +79,7 @@ z_t \sim \mathrm{Pois}(\theta), \\</script>
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">sim</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">simulate_ar1</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10000</span><span class="p">,</span><span class="w"> </span><span class="n">gam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.95</span><span class="p">,</span><span class="w"> </span><span class="n">poisMean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.01</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.15</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
 </span><span class="n">plot</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span></code></pre></figure>
 
-<p><img src="/figure/source/tutorial/unnamed-chunk-1-1.png" alt="plot of chunk unnamed-chunk-1" /></p>
+<p><img src="figure/source/tutorial/unnamed-chunk-1-1.png" alt="plot of chunk unnamed-chunk-1" /></p>
 
 <p>The <code class="highlighter-rouge">estimate_spikes</code> function estimates spikes based on the calcium trace, exponential decay parameter $\gamma$, and a tuning parameter $\lambda$. This function solves*</p>
 
@@ -117,14 +117,14 @@ z_t \sim \mathrm{Pois}(\theta), \\</script>
 </span><span class="n">fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">estimate_calcium</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span><span class="w">
 </span><span class="n">plot</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span></code></pre></figure>
 
-<p><img src="/figure/source/tutorial/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3" /></p>
+<p><img src="figure/source/tutorial/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3" /></p>
 
 <p>Alternatively, both spikes and calcium concentrations can be computed with the <code class="highlighter-rouge">estimate_spikes</code> function with <code class="highlighter-rouge">estimate_calcium</code> parameter set to true.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">estimate_spikes</span><span class="p">(</span><span class="n">dat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sim</span><span class="o">$</span><span class="n">fl</span><span class="p">,</span><span class="w"> </span><span class="n">gam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.95</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">estimate_calcium</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">)</span><span class="w">
 </span><span class="n">plot</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span></code></pre></figure>
 
-<p><img src="/figure/source/tutorial/unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4" /></p>
+<p><img src="figure/source/tutorial/unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4" /></p>
 
 <p>To solve the constrained problem</p>
 
@@ -154,7 +154,7 @@ z_t \sim \mathrm{Pois}(\theta), \\</script>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">plot</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span></code></pre></figure>
 
-<p><img src="/figure/source/tutorial/unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5" /></p>
+<p><img src="figure/source/tutorial/unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5" /></p>
 
 <ul>
   <li>In practice, we solve a modification of our algorithm that removes potential numerical instabilities by imposing a minimum calcium concentration constraint. Namely, we require that the calcium concentration never decays below some small $\epsilon&gt;0$, i.e. $c_{t} = \max(\gamma c_{t-1}, \epsilon) + z_{t}$. This results in slightly different optimization problems. For small $\epsilon$, the difference between the old and new formulation is negligible (the objective function differ only when, under the old formulation, $c_{t} &lt; \epsilon$, and at such timesteps the difference is bounded by $2y_{t}\epsilon + \frac12 \epsilon^{2}$.) Details are in Appendix S3.1 of the Supplementary Materials of <a href="#jewell2018fast">(Jewell, Hocking, Fearnhead, &amp; Witten, 2018)</a>.</li>
@@ -274,7 +274,7 @@ function toggleBibtexjewell2018fast(parameter) {
 </script>
 
 <script type="text/javascript"
-   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 

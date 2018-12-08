@@ -29,7 +29,7 @@ sim <- simulate_ar1(n = 10000, gam = 0.95, poisMean = 0.01, sd = 0.15, seed = 1)
 plot(sim)
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-1](/figure/source/tutorial/unnamed-chunk-1-1.png)
+![plot of chunk unnamed-chunk-1](figure/source/tutorial/unnamed-chunk-1-1.png)
 
 
 The ```estimate_spikes``` function estimates spikes based on the calcium trace, exponential decay parameter $\gamma$, and a tuning parameter $\lambda$. This function solves* 
@@ -83,7 +83,7 @@ fit <- estimate_calcium(fit)
 plot(fit)
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-3](/figure/source/tutorial/unnamed-chunk-3-1.png)
+![plot of chunk unnamed-chunk-3](figure/source/tutorial/unnamed-chunk-3-1.png)
 
 Alternatively, both spikes and calcium concentrations can be computed with the ```estimate_spikes``` function with ```estimate_calcium``` parameter set to true. 
 
@@ -93,7 +93,7 @@ fit <- estimate_spikes(dat = sim$fl, gam = 0.95, lambda = 1, estimate_calcium = 
 plot(fit)
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-4](/figure/source/tutorial/unnamed-chunk-4-1.png)
+![plot of chunk unnamed-chunk-4](figure/source/tutorial/unnamed-chunk-4-1.png)
 
 To solve the constrained problem 
 
@@ -136,7 +136,7 @@ print(fit)
 plot(fit)
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-5](/figure/source/tutorial/unnamed-chunk-5-1.png)
+![plot of chunk unnamed-chunk-5](figure/source/tutorial/unnamed-chunk-5-1.png)
 
 
 * In practice, we solve a modification of our algorithm that removes potential numerical instabilities by imposing a minimum calcium concentration constraint. Namely, we require that the calcium concentration never decays below some small $\epsilon>0$, i.e. $c_{t} = \max(\gamma c_{t-1}, \epsilon) + z_{t}$. This results in slightly different optimization problems. For small $\epsilon$, the difference between the old and new formulation is negligible (the objective function differ only when, under the old formulation, $c_{t} < \epsilon$, and at such timesteps the difference is bounded by $2y_{t}\epsilon + \frac12 \epsilon^{2}$.) Details are in Appendix S3.1 of the Supplementary Materials of {% cite jewell2018fast %}. 

@@ -18,7 +18,7 @@ local({
   )
   # set where you want to host the figures (I store them in my Dropbox Public
   # folder, and you might prefer putting them in GIT)
-  knitr::opts_knit$set(base.url = '/')
+  knitr::opts_knit$set(base.url = '')
   knitr::opts_knit$set(width = 70)
   knitr::knit(a[1], a[2], quiet = TRUE, encoding = 'UTF-8', envir = .GlobalEnv)
 })
