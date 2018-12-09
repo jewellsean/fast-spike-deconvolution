@@ -34,7 +34,7 @@ plt.plot(y)
 ![png](figure/source/python_tutorial_files/python_tutorial_3_1.png)
 
 
-The ```estimate_spikes``` function estimates spikes based on the calcium trace, exponential decay parameter $\gamma$, and a tuning parameter $\lambda$. This function solves* 
+The ```estimate_spikes``` function estimates spikes based on the calcium trace, exponential decay parameter $\gamma$, and a tuning parameter $\lambda$. This function solves 
 
 $$
 \underset{c_1,\ldots,c_T, z_2,\ldots,z_T}{\mathrm{minimize}}  
@@ -101,11 +101,6 @@ we set the ```constraint``` parameter to true in the ```estimate_spikes``` funct
 ```python
 fit = fast.estimate_spikes(y, gam, 1, True, True)
 ```
+ 
 
-* In practice, we solve a modification of our algorithm that removes potential numerical instabilities by imposing a minimum calcium concentration constraint. Namely, we require that the calcium concentration never decays below some small $\epsilon>0$, i.e. $c_{t} = \max(\gamma c_{t-1}, \epsilon) + z_{t}$. This results in slightly different optimization problems. For small $\epsilon$, the difference between the old and new formulation is negligible (the objective function differ only when, under the old formulation, $c_{t} < \epsilon$, and at such timesteps the difference is bounded by $2y_{t}\epsilon + \frac12 \epsilon^{2}$.) Details are in Appendix S3.1 of the Supplementary Materials of {% cite jewell2018fast %}. 
 
-
-References 
-----
-
-{% bibliography --cited %}

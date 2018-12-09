@@ -66,11 +66,15 @@
 
         <h1 id="fast-deconvolution-of-calcium-imaging-data-via-an-ell_0-penalty">Fast deconvolution of calcium imaging data via an $\ell_0$ penalty</h1>
 
+<p><img src="figure/ex.png" alt="drawing" width="1100" /></p>
+
 <h2 id="overview">Overview</h2>
 
-<p>Recently, new technologies in neuroscience have made it possible to record large numbers of firing neurons simultaneously. 
-For each neuron, a fluorescence trace is recorded, and on the basis of the trace, we wish to estimate the exact times 
-that the neuron fired. This is a challenging deconvolution problem.</p>
+<p>This website provides software and tutorials to perform fast $\ell_0$ deconvolution of calcium imaging data, as described in 
+these two papers <a href="#jewell2018exact">(Jewell &amp; Witten, 2018)</a> and <a href="#jewell2018fast">(Jewell, Hocking, Fearnhead, &amp; Witten, 2018)</a>, and as implemented in the 
+Allen Brain Observatory platform paper <a href="#deVries2018large">(de Vries et al., 2018)</a>.</p>
+
+<h2 id="technical-details">Technical details</h2>
 
 <p>We assume that the observed fluorescence trace $y_{t}$ is a noisy version of the unobserved calcium concentration $c_{t}$. 
 Furthermore, we assume that the calcium concentration decays exponentially, unless there is a spike, in which case 
@@ -84,7 +88,7 @@ c_t &= \gamma c_{t-1} + z_t, \quad t = 2,\ldots, T,
 
 <p>where $z_t\geq 0$, and where $z_{t} &gt;0$ indicates the presence of a spike at the $t$th timestep.</p>
 
-<p>Based on this generative model, <a href="#jewell2018exact">(Jewell &amp; Witten, 2018)</a> proposed solving the $\ell_0$ optimization problem</p>
+<p>Based on this generative model, our earlier work <a href="#jewell2018exact">(Jewell &amp; Witten, 2018)</a> proposed solving the $\ell_0$ optimization problem</p>
 
 <script type="math/tex; mode=display">\underset{c_1,\ldots,c_T, z_2,\ldots,z_T}{\mathrm{minimize}}  
 \frac{1}{2} \sum_{t=1}^T \left( y_t -  c_t \right)^2 + \lambda \sum_{t=2}^T 1_{\left( z_t \neq 0 \right) },</script>
@@ -104,15 +108,13 @@ the goodness-of-fit, $\frac{1}{2} \sum_{t=1}^T \left( y_t -  c_t \right)^2$.</p>
 \mbox{ subject to } z_t = c_t - \gamma c_{t-1} \geq 0,</script>
 
 <p>that ensures a spike results in an increase in the calcium concentration. This website introduces the efficient algorithm 
-of <a href="#jewell2018fast">(Jewell, Hocking, Fearnhead, &amp; Witten, 2018)</a>.</p>
+of our work <a href="#jewell2018fast">(Jewell, Hocking, Fearnhead, &amp; Witten, 2018)</a>.</p>
 
 <h2 id="allen-institute-for-brain-science">Allen Institute for Brain Science</h2>
 
-<p>We also note that the recent paper <a href="#deVries2018large">(de Vries et al., 2018)</a> decodes neural activity for different Allen Institute 
-for Brain Science (AIBS) Brain Observatory experiments using 
-Algorithm 2 of <a href="#jewell2018fast">(Jewell, Hocking, Fearnhead, &amp; Witten, 2018)</a>; that is, the algorithm presented on this website.</p>
+<p>The Allen Brain Observatory platform paper <a href="#deVries2018large">(de Vries et al., 2018)</a> performs all spike deconvolution using the algorithm described on this website.</p>
 
-<p>If you’re working with the AIBS data, you may be interested to know that the AIBS also recently released an
+<p>If you’re working with the AIBS data, you may be interested to know that the AIBS also released an
 update to their software development kit that provides users with the output from Algorithm 2 for close to 60,000 
 neurons during different experimental conditions. See <a href="https://allensdk.readthedocs.io/en/latest/">https://allensdk.readthedocs.io/en/latest/</a>
 for additional information.</p>

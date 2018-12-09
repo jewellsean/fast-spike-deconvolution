@@ -85,7 +85,7 @@ All demos require the <code class="highlighter-rouge">FastLZeroSpikeInference</c
 
 <p><img src="figure/source/python_tutorial_files/python_tutorial_3_1.png" alt="png" /></p>
 
-<p>The <code class="highlighter-rouge">estimate_spikes</code> function estimates spikes based on the calcium trace, exponential decay parameter $\gamma$, and a tuning parameter $\lambda$. This function solves*</p>
+<p>The <code class="highlighter-rouge">estimate_spikes</code> function estimates spikes based on the calcium trace, exponential decay parameter $\gamma$, and a tuning parameter $\lambda$. This function solves</p>
 
 <script type="math/tex; mode=display">\underset{c_1,\ldots,c_T, z_2,\ldots,z_T}{\mathrm{minimize}}  
 \frac{1}{2} \sum_{t=1}^T \left( y_t -  c_t \right)^2 + \lambda \sum_{t=2}^T 1_{\left( z_t \neq 0 \right) }</script>
@@ -132,50 +132,6 @@ All demos require the <code class="highlighter-rouge">FastLZeroSpikeInference</c
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fit</span> <span class="o">=</span> <span class="n">fast</span><span class="o">.</span><span class="n">estimate_spikes</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">gam</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
 </code></pre></div></div>
 
-<ul>
-  <li>In practice, we solve a modification of our algorithm that removes potential numerical instabilities by imposing a minimum calcium concentration constraint. Namely, we require that the calcium concentration never decays below some small $\epsilon&gt;0$, i.e. $c_{t} = \max(\gamma c_{t-1}, \epsilon) + z_{t}$. This results in slightly different optimization problems. For small $\epsilon$, the difference between the old and new formulation is negligible (the objective function differ only when, under the old formulation, $c_{t} &lt; \epsilon$, and at such timesteps the difference is bounded by $2y_{t}\epsilon + \frac12 \epsilon^{2}$.) Details are in Appendix S3.1 of the Supplementary Materials of <a href="#jewell2018fast">(Jewell, Hocking, Fearnhead, &amp; Witten, 2018)</a>.</li>
-</ul>
-
-<h2 id="references">References</h2>
-
-<ol class="bibliography"><li><div class="text-justify"><span id="jewell2018fast">Jewell, S., Hocking, T. D., Fearnhead, P., &amp; Witten, D. (2018). Fast Nonconvex Deconvolution of Calcium Imaging Data. <i>ArXiv:1802.07380</i>.</span></div>
-<button class="button0" onclick="toggleBibtexjewell2018fast()">Bibtex</button>
-
-
-
-
-<a href="https://arxiv.org/pdf/1802.07380.pdf"><input class="button0" type="button" value="preprint" /></a>
-
-
-
-<a href="https://arxiv.org/abs/1802.07380"><input class="button0" type="button" value="link" /></a>
-
-
-
-<a href="https://github.com/jewellsean/FastLZeroSpikeInference"><input class="button0" type="button" value="code" /></a>
-
-<div id="ajewell2018fast" style="display: none;">
-    <pre>@article{jewell2018fast,
-  title = {Fast Nonconvex Deconvolution of Calcium Imaging Data},
-  author = {Jewell, Sean and Hocking, Toby Dylan and Fearnhead, Paul and Witten, Daniela},
-  journal = {arXiv:1802.07380},
-  year = {2018},
-  preprint = {https://arxiv.org/pdf/1802.07380.pdf},
-  link = {https://arxiv.org/abs/1802.07380},
-  code = {https://github.com/jewellsean/FastLZeroSpikeInference}
-}
-</pre>
-</div>
-<script>
-function toggleBibtexjewell2018fast(parameter) {
-    var x= document.getElementById('ajewell2018fast');
-    if (x.style.display === 'none') {
-        x.style.display = 'block';
-    } else {
-        x.style.display = 'none';
-    }
-}
-</script></li></ol>
 
 
 
