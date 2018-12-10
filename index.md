@@ -72,6 +72,18 @@ neurons during different experimental conditions. See [https://allensdk.readthed
 for additional information. 
 
 
+Funding
+----
+
+This work was partially supported by the NIH BRAIN Initiative, R01EB026908, NIH grants DP5OD009145 and R01DA047869, 
+NSF CAREER DMS-1252624, and a Simons Investigator Award in Mathematical Modeling of Living Systems to D. Witten. 
+The following sources also provided support: 
+the Natural Sciences and Engineering Research Council of Canada to S. Jewell, the Natural Sciences and 
+Engineering Research Council of Canada grant RGPGR 448167-2013 
+and Canadian Institutes of Health Research grants EP1-120608 and EP1-120609 to T. Hocking, 
+and by the Engineering and Physical Sciences Research Council Grant EP/N031938/1 to P. Fearnhead.
+
+
 
 References 
 ----
