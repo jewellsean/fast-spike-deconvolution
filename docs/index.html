@@ -71,7 +71,7 @@
 <h2 id="overview">Overview</h2>
 
 <p>This website provides software and tutorials to perform fast $\ell_0$ deconvolution of calcium imaging data, as described in 
-these two papers <a href="#jewell2018exact">(Jewell &amp; Witten, 2018)</a> and <a href="#jewell2018fast">(Jewell, Hocking, Fearnhead, &amp; Witten, 2018)</a>, and as implemented in the 
+these two papers <a href="#jewell2018exact">(Jewell &amp; Witten, 2018)</a> and <a href="#jewell2018fast">(Jewell, Hocking, Fearnhead, &amp; Witten, 2019)</a>, and as implemented in the 
 Allen Brain Observatory platform paper <a href="#deVries2018large">(de Vries et al., 2018)</a>.</p>
 
 <h2 id="technical-details">Technical details</h2>
@@ -96,7 +96,7 @@ c_t &= \gamma c_{t-1} + z_t, \quad t = 2,\ldots, T,
 <p>where $\lambda&gt;0$ is a tuning parameter that balances the tradeoff between the total number of spikes, $\sum_{t}z_t$, and 
 the goodness-of-fit, $\frac{1}{2} \sum_{t=1}^T \left( y_t -  c_t \right)^2$.</p>
 
-<p>In <a href="#jewell2018fast">(Jewell, Hocking, Fearnhead, &amp; Witten, 2018)</a>, we develop a <strong>very efficient</strong> algorithm for solving</p>
+<p>In <a href="#jewell2018fast">(Jewell, Hocking, Fearnhead, &amp; Witten, 2019)</a>, we develop a <strong>very efficient</strong> algorithm for solving</p>
 
 <script type="math/tex; mode=display">\underset{c_1,\ldots,c_T, z_2,\ldots,z_T}{\mathrm{minimize}}  
 \frac{1}{2} \sum_{t=1}^T \left( y_t -  c_t \right)^2 + \lambda \sum_{t=2}^T 1_{\left( z_t \neq 0 \right) },</script>
@@ -108,7 +108,7 @@ the goodness-of-fit, $\frac{1}{2} \sum_{t=1}^T \left( y_t -  c_t \right)^2$.</p>
 \mbox{ subject to } z_t = c_t - \gamma c_{t-1} \geq 0,</script>
 
 <p>that ensures a spike results in an increase in the calcium concentration. This website introduces the efficient algorithm 
-of our work <a href="#jewell2018fast">(Jewell, Hocking, Fearnhead, &amp; Witten, 2018)</a>.</p>
+of our work <a href="#jewell2018fast">(Jewell, Hocking, Fearnhead, &amp; Witten, 2019)</a>.</p>
 
 <h2 id="allen-institute-for-brain-science">Allen Institute for Brain Science</h2>
 
@@ -175,9 +175,11 @@ function toggleBibtexjewell2018exact(parameter) {
     }
 }
 </script></li>
-<li><div class="text-justify"><span id="jewell2018fast">Jewell, S., Hocking, T. D., Fearnhead, P., &amp; Witten, D. (2018). Fast Nonconvex Deconvolution of Calcium Imaging Data. <i>ArXiv:1802.07380</i>.</span></div>
+<li><div class="text-justify"><span id="jewell2018fast">Jewell, S. W., Hocking, T. D., Fearnhead, P., &amp; Witten, D. M. (2019). Fast nonconvex deconvolution of calcium imaging data. <i>Biostatistics</i>. https://doi.org/10.1093/biostatistics/kxy083</span></div>
 <button class="button0" onclick="toggleBibtexjewell2018fast()">Bibtex</button>
 
+
+<a href="http://doi.org/10.1093/biostatistics/kxy083"><input class="button0" type="button" value="doi" /></a>
 
 
 
@@ -185,20 +187,20 @@ function toggleBibtexjewell2018exact(parameter) {
 
 
 
-<a href="https://arxiv.org/abs/1802.07380"><input class="button0" type="button" value="link" /></a>
-
 
 
 <a href="https://github.com/jewellsean/FastLZeroSpikeInference"><input class="button0" type="button" value="code" /></a>
 
 <div id="ajewell2018fast" style="display: none;">
     <pre>@article{jewell2018fast,
-  title = {Fast Nonconvex Deconvolution of Calcium Imaging Data},
-  author = {Jewell, Sean and Hocking, Toby Dylan and Fearnhead, Paul and Witten, Daniela},
-  journal = {arXiv:1802.07380},
-  year = {2018},
+  author = {Jewell, Sean W and Hocking, Toby Dylan and Fearnhead, Paul and Witten, Daniela M},
+  title = {{Fast nonconvex deconvolution of calcium imaging data}},
+  year = {2019},
+  month = feb,
+  journal = {Biostatistics},
+  doi = {10.1093/biostatistics/kxy083},
+  url = {https://doi.org/10.1093/biostatistics/kxy083},
   preprint = {https://arxiv.org/pdf/1802.07380.pdf},
-  link = {https://arxiv.org/abs/1802.07380},
   code = {https://github.com/jewellsean/FastLZeroSpikeInference}
 }
 </pre>
