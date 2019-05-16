@@ -68,7 +68,7 @@ The Allen Brain Observatory platform paper {% cite deVries2018large %} performs 
 
 If you're working with the AIBS data, you may be interested to know that the AIBS also released an
 update to their software development kit that provides users with the output from Algorithm 2 for close to 60,000 
-neurons during different experimental conditions. See [https://allensdk.readthedocs.io/en/latest/](https://allensdk.readthedocs.io/en/latest/)
+neurons during different experimental conditions. See [https://github.com/AllenInstitute/AllenSDK/wiki/Release-Notes-(0.16.0)](https://github.com/AllenInstitute/AllenSDK/wiki/Release-Notes-(0.16.0))
 for additional information. 
 
 
